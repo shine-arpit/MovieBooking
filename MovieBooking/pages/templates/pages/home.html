@@ -1,0 +1,93 @@
+ <html>
+	<head>
+		<title>Movie Booking Portal</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<!-- {% load static %} -->
+		<link rel="stylesheet" href="{% static "pages/css/main.css" %}">
+	</head>
+	<body>
+		<div class="container">
+		<div>
+			<span style="font-size: 35px">Movie Booking Portal</span>
+			<span class="login-section-header">
+				{% if user.is_authenticated %}
+				Welcome, {{ user.username }}
+				<a href="{% url 'logout' %}"><input type="button" class="btn btn-primary" value="Log out"/></a>
+				{% else %}
+				<a href="{% url 'signup' %}"><input type="button" class="btn btn-primary" value="Sign Up"/></a>
+				<a href="{% url 'login' %}"><input type="button" class="btn btn-primary" value="Log In"/> </a>
+				{% endif %}
+			</span>
+		</div>
+		<div style="padding: 5%;">
+			<!-- Search form -->
+			<input class="form-control" type="text" placeholder="Search" aria-label="Search">
+		</div>
+		<div>
+			<nav>
+  				<div class="nav nav-tabs" id="nav-tab" role="tablist">
+    				<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#now" role="tab" aria-controls="now" aria-selected="true">Now</a>
+    				<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#coming soon" role="tab" aria-controls="coming soon" aria-selected="false">Coming Soon</a>
+    			</div>
+			</nav>
+			<div class="tab-content" id="nav-tabContent">
+  				<div class="tab-pane fade show active" id="now" role="tabpanel" aria-labelledby="nav-home-tab">
+  					<table style="width: 100%; border-spacing: 10px;">
+				<thead>
+					<th>Movie Name</th>
+					<th>Status</th>
+					<th>Total Seat</th>
+					<th>Available Seat</th>
+					<th></th>
+				</thead>
+				<tbody>
+					{% for movies in result %}
+					<tr>
+						<td>{{movies.name}} | {{movies.genre}}</td>
+						<td>{{movies.status}}</td>
+						<td>{{movies.total_seats}}</td>
+						<td>{{movies.available_seats}}</td>
+						<td>
+							{% if movies.ticket_available %}
+							 <a href="bookticket/{{movies.id}}"><input type="button" class="btn btn-primary" value="Book"/></a>
+							 {% else %}
+							 <a href="#"><input type="button" class="btn btn-danger" value="Book" disabled/></a>{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+  				</div>
+  			<div class="tab-pane fade" id="coming soon" role="tabpanel" aria-labelledby="nav-profile-tab">
+  				<table style="width: 100%; border-spacing: 10px;">
+				<thead>
+					<th>Movie Name</th>
+					<th>Status</th>
+					<th>Total Seat</th>
+					<th>Available Seat</th>
+					<th></th>
+				</thead>
+				<tbody>
+					{% for movies in result %}
+					<tr>
+						<td>{{movies.name}} | {{movies.genre}}</td>
+						<td>{{movies.status}}</td>
+						<td>{{movies.total_seats}}</td>
+						<td>{{movies.available_seats}}</td>
+						<td>
+							{% if movies.ticket_available %}
+							 <a href="bookticket/{{movies.id}}"><input type="button" class="btn btn-primary" value="Book"/></a>
+							 {% else %}
+							 <a href="#"><input type="button" class="btn btn-danger" value="Book" disabled/></a>{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+  			</div>
+  		</div>
+		</div>
+	</div>
+	</body>
+</html>
